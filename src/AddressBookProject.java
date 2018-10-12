@@ -73,31 +73,45 @@ class AddressBook {
     public void searchContact(String criteria, String searchQuery) {
         switch (criteria) {
             case "1":
+                int counterName=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getFirstName().contains(searchQuery)) (contacts.get(i)).printContact();
-                    else System.out.println("\nThat contact doesn't exist");
+                    if (contacts.get(i).getFirstName().contains(searchQuery)) {
+                        (contacts.get(i)).printContact();
+                        counterName++;
+                    }
                 }
+                if(counterName==0) System.out.println("No contacts found");
                 break;
             case "2":
+                int counterLastname=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getLastName().contains(searchQuery)) (contacts.get(i)).printContact();
-                    else System.out.println("\nThat contact doesn't exist");
+                    if (contacts.get(i).getLastName().contains(searchQuery)) {
+                        (contacts.get(i)).printContact();
+                        counterLastname++;
+                    }
                 }
+                if(counterLastname==0) System.out.println("No contacts found");
                 break;
             case "3":
+                int counterEmail=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getEmail().contains(searchQuery)) (contacts.get(i)).printContact();
-                    else System.out.println("\nThat contact doesn't exist");
+                    if (contacts.get(i).getEmail().contains(searchQuery)) {
+                        (contacts.get(i)).printContact();
+                        counterEmail++;
+                    }
                 }
+                if(counterEmail==0) System.out.println("No contacts found");
                 break;
             case "4":
+                int counterPhone=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getPhone().contains(searchQuery)) (contacts.get(i)).printContact();
-                    else System.out.println("\nThat contact doesn't exist");
+                    if (contacts.get(i).getPhone().contains(searchQuery)) {
+                        (contacts.get(i)).printContact();
+                        counterPhone++;
+                    }
                 }
+                if(counterPhone==0) System.out.println("No contacts found");
                 break;
-            default:
-                System.out.println("\n That contact doesn't exist");
         }
     }
 
