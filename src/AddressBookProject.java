@@ -75,7 +75,7 @@ class AddressBook {
             case "1":
                 int counterName=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getFirstName().contains(searchQuery)) {
+                    if (contacts.get(i).getFirstName().toUpperCase().contains(searchQuery.toUpperCase())) {
                         (contacts.get(i)).printContact();
                         counterName++;
                     }
@@ -85,7 +85,7 @@ class AddressBook {
             case "2":
                 int counterLastname=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getLastName().contains(searchQuery)) {
+                    if (contacts.get(i).getLastName().toUpperCase().contains(searchQuery.toUpperCase())) {
                         (contacts.get(i)).printContact();
                         counterLastname++;
                     }
@@ -95,7 +95,7 @@ class AddressBook {
             case "3":
                 int counterEmail=0;
                 for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getEmail().contains(searchQuery)) {
+                    if (contacts.get(i).getEmail().toUpperCase().contains(searchQuery.toUpperCase())) {
                         (contacts.get(i)).printContact();
                         counterEmail++;
                     }
@@ -123,22 +123,22 @@ class AddressBook {
         }
     }
 
-    public void modifyContact(int modifyContactChoice, String attrToBeModified, String newValue) {
+    public void modifyContact(String modifyContactChoice, String attrToBeModified, String newValue) {
         switch (attrToBeModified) {
             case "1":
-                contacts.get(modifyContactChoice - 1).setFirstName(newValue);
+                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setFirstName(newValue);
                 System.out.println("First name successfully changed to " + newValue + "!\n");
                 break;
             case "2":
-                contacts.get(modifyContactChoice - 1).setLastName(newValue);
+                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setLastName(newValue);
                 System.out.println("Last name successfully changed to " + newValue + "!\n");
                 break;
             case "3":
-                contacts.get(modifyContactChoice - 1).setEmail(newValue);
+                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setEmail(newValue);
                 System.out.println("Email address successfully changed to " + newValue + "!\n");
                 break;
             case "4":
-                contacts.get(modifyContactChoice - 1).setPhone(newValue);
+                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setPhone(newValue);
                 System.out.println("Phone number successfully changed to " + newValue + "!\n");
                 break;
             default:
@@ -147,9 +147,19 @@ class AddressBook {
         }
     }
 
-    public boolean validateContact(int modifyContactChoice) {
-        if ((modifyContactChoice - 1 < contacts.size()) && (modifyContactChoice) > 0) return true;
+    public boolean validateContact(String modifyContactChoice) {
+        if (((Integer.parseInt(modifyContactChoice) -1) < contacts.size()) && (Integer.parseInt(modifyContactChoice)) > 0) return true;
         else return false;
+    }
+
+    public boolean isInteger(String modifyContactChoice){
+        try{
+            Integer.parseInt(modifyContactChoice);
+        }
+        catch (NumberFormatException number){
+            return false;
+        }
+        return true;
     }
 
     public boolean isEmpty() {
@@ -234,28 +244,29 @@ class AddressBookProject {
         if (addr.isEmpty()) System.out.println("The Address Book is currently empty");
         else {
             System.out.println("\nPlease choose the number of the contact that you would like to edit");
-            int modifyContactChoice = scanner.nextInt();
-            scanner.nextLine();
-            if (addr.validateContact(modifyContactChoice)) {
-                String attrToBeModified;
-                boolean flag = true;
-                do {
-                    System.out.println("Please choose the attribute to be modified: (1-First Name, 2-Last Name, 3-Email, 4-Phone, 0-cancel)");
-                    attrToBeModified = scanner.nextLine();
-                    if ((attrToBeModified.compareTo("0") < 0) || (attrToBeModified.compareTo("4") > 0)) {
-                        System.out.println("That attribute doesn't exist, please choose again\n");
-                    } else if (attrToBeModified != "0") {
-                        System.out.println("Please enter the new value");
-                        String newValue = scanner.nextLine();
-                        addr.modifyContact(modifyContactChoice, attrToBeModified, newValue);
-                        System.out.println("Would you like to make additional changes? y/n");
-                        String additionalChange = scanner.nextLine();
-                        if (additionalChange.equals("n")) {
-                            flag = false;
+            String modifyContactChoice = scanner.nextLine();
+            if (addr.isInteger(modifyContactChoice)) {
+                if (addr.validateContact(modifyContactChoice)) {
+                    String attrToBeModified;
+                    boolean flag = true;
+                    do {
+                        System.out.println("Please choose the attribute to be modified: (1-First Name, 2-Last Name, 3-Email, 4-Phone)");
+                        attrToBeModified = scanner.nextLine();
+                        if ((attrToBeModified.compareTo("0") < 1) || (attrToBeModified.compareTo("4") > 0)) {
+                            System.out.println("That attribute doesn't exist, please choose again\n");
+                        } else {
+                            System.out.println("Please enter the new value");
+                            String newValue = scanner.nextLine();
+                            addr.modifyContact(modifyContactChoice, attrToBeModified, newValue);
+                            System.out.println("Would you like to make additional changes? y/n");
+                            String additionalChange = scanner.nextLine();
+                            if (additionalChange.equals("n")) {
+                                flag = false;
+                            }
                         }
-                    }
-                } while (attrToBeModified != "0" && flag);
-            } else System.out.println("\nNo such contact exists");
+                    } while (flag);
+                } else System.out.println("\nNo such contact exists");
+            } else System.out.println("\nInvalid value, returning to main menu");
         }
     }
 
