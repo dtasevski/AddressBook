@@ -73,51 +73,51 @@ class AddressBook {
     public void searchContact(String criteria, String searchQuery) {
         switch (criteria) {
             case "1":
-                int counterName=0;
+                int counterName = 0;
                 for (int i = 0; i < contacts.size(); i++) {
                     if (contacts.get(i).getFirstName().toUpperCase().contains(searchQuery.toUpperCase())) {
                         (contacts.get(i)).printContact();
                         counterName++;
                     }
                 }
-                if(counterName==0) System.out.println("No contacts found");
+                if (counterName == 0) System.out.println("No contacts found");
                 break;
             case "2":
-                int counterLastname=0;
+                int counterLastname = 0;
                 for (int i = 0; i < contacts.size(); i++) {
                     if (contacts.get(i).getLastName().toUpperCase().contains(searchQuery.toUpperCase())) {
                         (contacts.get(i)).printContact();
                         counterLastname++;
                     }
                 }
-                if(counterLastname==0) System.out.println("No contacts found");
+                if (counterLastname == 0) System.out.println("No contacts found");
                 break;
             case "3":
-                int counterEmail=0;
+                int counterEmail = 0;
                 for (int i = 0; i < contacts.size(); i++) {
                     if (contacts.get(i).getEmail().toUpperCase().contains(searchQuery.toUpperCase())) {
                         (contacts.get(i)).printContact();
                         counterEmail++;
                     }
                 }
-                if(counterEmail==0) System.out.println("No contacts found");
+                if (counterEmail == 0) System.out.println("No contacts found");
                 break;
             case "4":
-                int counterPhone=0;
+                int counterPhone = 0;
                 for (int i = 0; i < contacts.size(); i++) {
                     if (contacts.get(i).getPhone().contains(searchQuery)) {
                         (contacts.get(i)).printContact();
                         counterPhone++;
                     }
                 }
-                if(counterPhone==0) System.out.println("No contacts found");
+                if (counterPhone == 0) System.out.println("No contacts found");
                 break;
         }
     }
 
-    public void deleteContact(int deleteContactChoice) {
-        if (deleteContactChoice - 1 < contacts.size() && deleteContactChoice > 0) {
-            contacts.remove(deleteContactChoice - 1);
+    public void deleteContact(String deleteContactChoice) {
+        if (((Integer.parseInt(deleteContactChoice) - 1) < contacts.size()) && (Integer.parseInt(deleteContactChoice)) > 0) {
+            contacts.remove((Integer.parseInt(deleteContactChoice) - 1));
         } else {
             System.out.println("\nNo such contact exists");
         }
@@ -148,15 +148,15 @@ class AddressBook {
     }
 
     public boolean validateContact(String modifyContactChoice) {
-        if (((Integer.parseInt(modifyContactChoice) -1) < contacts.size()) && (Integer.parseInt(modifyContactChoice)) > 0) return true;
+        if (((Integer.parseInt(modifyContactChoice) - 1) < contacts.size()) && (Integer.parseInt(modifyContactChoice)) > 0)
+            return true;
         else return false;
     }
 
-    public boolean isInteger(String modifyContactChoice){
-        try{
-            Integer.parseInt(modifyContactChoice);
-        }
-        catch (NumberFormatException number){
+    public boolean isInteger(String userInput) {
+        try {
+            Integer.parseInt(userInput);
+        } catch (NumberFormatException number) {
             return false;
         }
         return true;
@@ -175,13 +175,7 @@ class AddressBookProject {
         AddressBook addr = new AddressBook();
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("\nChoose an action\n");
-            System.out.println("1. Add New Contact");
-            System.out.println("2. Search Contacts");
-            System.out.println("3. Modify Existing Contact");
-            System.out.println("4. Remove Existing Contact");
-            System.out.println("5. Preview the whole address book");
-            System.out.println("Press e to exit\n");
+            menuNavigation();
             userInput = scanner.nextLine();
             switch (userInput) {
                 case "1":
@@ -201,16 +195,29 @@ class AddressBookProject {
                     addr.printAddressBook();
                     removingContact(scanner, addr);
                     break;
+
                 case "5":
                     if (addr.isEmpty()) System.out.println("The Address Book is currently empty");
                     else addr.printAddressBook();
                     break;
+
                 case "e":
                     return;
+
                 default:
                     if (!userInput.equals("e")) System.out.println("Invalid value please try again");
             }
         } while (true);
+    }
+
+    public static void menuNavigation() {
+        System.out.println("\nChoose an action\n");
+        System.out.println("1. Add New Contact");
+        System.out.println("2. Search Contacts");
+        System.out.println("3. Modify Existing Contact");
+        System.out.println("4. Remove Existing Contact");
+        System.out.println("5. Preview the whole address book");
+        System.out.println("Press e to exit\n");
     }
 
     public static void addingContact(Scanner scanner, AddressBook addr) {
@@ -274,9 +281,11 @@ class AddressBookProject {
         if (addr.isEmpty()) System.out.println("The Address Book is currently empty");
         else {
             System.out.println("\nPlease choose the number of the contact that you would like to delete");
-            int deleteContactChoice = scanner.nextInt();
-            scanner.nextLine();
-            addr.deleteContact(deleteContactChoice);
+            String deleteContactChoice = scanner.nextLine();
+            if(addr.isInteger(deleteContactChoice)){
+                addr.deleteContact(deleteContactChoice);
+            }else System.out.println("\nInvalid value, returning to main menu");
+
         }
     }
 }
