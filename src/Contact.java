@@ -46,4 +46,51 @@ class Contact {
     public void printContact() {
         System.out.println("First Name:  " + firstName + ",  Last Name:  " + lastName + ",  Email:  " + email + ",  Phone:  " + phone);
     }
+
+    String searchAtribute(int criteria){
+        switch (criteria){
+            case 1:
+                return getFirstName().toUpperCase();
+            case 2:
+                return getLastName().toUpperCase();
+            case 3:
+                return getEmail().toUpperCase();
+            case 4:
+                return getPhone().toUpperCase();
+        }
+        return null;
+    }
+
+    boolean contains(int criteria, String searchQuery){
+        if(searchAtribute(criteria).contains(searchQuery.toUpperCase())) return true;
+        else return false;
+    }
+
+    void printAttribute(String attribute, String newValue){
+        System.out.println(attribute + " successfully changed to " + newValue + "!\n");
+    }
+
+    void modifyAttribute(int modifyContactChoice, String newValue){
+        switch (modifyContactChoice){
+            case 1:
+                setFirstName(newValue);
+                printAttribute("First name", newValue);
+                break;
+            case 2:
+                setLastName(newValue);
+                printAttribute("First name", newValue);
+                break;
+            case 3:
+                setEmail(newValue);
+                printAttribute("First name", newValue);
+                break;
+            case 4:
+                setPhone(newValue);
+                printAttribute("First name", newValue);
+                break;
+            default:
+                System.out.println("Invalid value, please try again");
+                break;
+        }
+    }
 }

@@ -20,48 +20,15 @@ class AddressBook {
     }
 
     public void searchContact(String criteria, String searchQuery) {
-        switch (criteria) {
-            case "1":
-                int counterName = 0;
-                for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getFirstName().toUpperCase().contains(searchQuery.toUpperCase())) {
-                        (contacts.get(i)).printContact();
-                        counterName++;
-                    }
-                }
-                if (counterName == 0) System.out.println("No contacts found");
-                break;
-            case "2":
-                int counterLastname = 0;
-                for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getLastName().toUpperCase().contains(searchQuery.toUpperCase())) {
-                        (contacts.get(i)).printContact();
-                        counterLastname++;
-                    }
-                }
-                if (counterLastname == 0) System.out.println("No contacts found");
-                break;
-            case "3":
-                int counterEmail = 0;
-                for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getEmail().toUpperCase().contains(searchQuery.toUpperCase())) {
-                        (contacts.get(i)).printContact();
-                        counterEmail++;
-                    }
-                }
-                if (counterEmail == 0) System.out.println("No contacts found");
-                break;
-            case "4":
-                int counterPhone = 0;
-                for (int i = 0; i < contacts.size(); i++) {
-                    if (contacts.get(i).getPhone().contains(searchQuery)) {
-                        (contacts.get(i)).printContact();
-                        counterPhone++;
-                    }
-                }
-                if (counterPhone == 0) System.out.println("No contacts found");
-                break;
+
+        int counter = 0;
+        for (int i = 0; i < contacts.size(); i++) {
+            if (contacts.get(i).contains(Integer.parseInt(criteria),searchQuery)) {
+                (contacts.get(i)).printContact();
+                counter++;
+            }
         }
+        if (counter == 0) System.out.println("No contacts found");
     }
 
     public void deleteContact(String deleteContactChoice) {
@@ -73,27 +40,8 @@ class AddressBook {
     }
 
     public void modifyContact(String modifyContactChoice, String attrToBeModified, String newValue) {
-        switch (attrToBeModified) {
-            case "1":
-                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setFirstName(newValue);
-                System.out.println("First name successfully changed to " + newValue + "!\n");
-                break;
-            case "2":
-                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setLastName(newValue);
-                System.out.println("Last name successfully changed to " + newValue + "!\n");
-                break;
-            case "3":
-                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setEmail(newValue);
-                System.out.println("Email address successfully changed to " + newValue + "!\n");
-                break;
-            case "4":
-                contacts.get((Integer.parseInt(modifyContactChoice) - 1)).setPhone(newValue);
-                System.out.println("Phone number successfully changed to " + newValue + "!\n");
-                break;
-            default:
-                System.out.println("Invalid value, please try again");
-                break;
-        }
+        contacts.get((Integer.parseInt(modifyContactChoice) - 1)).modifyAttribute(Integer.parseInt(modifyContactChoice), newValue);
+
     }
 
     public boolean validateContact(String modifyContactChoice) {
